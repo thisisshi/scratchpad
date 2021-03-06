@@ -23,7 +23,7 @@ resource "aws_iam_role" "installer" {
 EOF
 }
 
-resource aws_iam_role_policy_attachment admin {
-  role = aws_iam_role.installer.name
+resource "aws_iam_role_policy_attachment" "admin" {
+  role       = aws_iam_role.installer.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }

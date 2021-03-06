@@ -38,9 +38,8 @@ resource "aws_instance" "bastion" {
     device_index         = 0
   }
   iam_instance_profile = aws_iam_instance_profile.installer.name
+  security_groups      = [aws_security_group.sg.id]
 }
-
-data "aws_region" "current" {}
 
 resource "aws_network_interface" "foo" {
   subnet_id   = aws_subnet.zones["us-east-1a"].id
