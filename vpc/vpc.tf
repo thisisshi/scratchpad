@@ -2,21 +2,31 @@ data "aws_region" "current" {}
 
 resource "aws_vpc" "vpc" {
   cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "Sandbox Sonny VPC"
+  }
 }
 
 resource "aws_subnet" "zones" {
   for_each = zipmap(
     [for az in local.azs : join("", [data.aws_region.current.name, az])],
-    cidrsubnets("10.0.0.0/16", 4, 4, 4, 4)
+    cidrsubnets("10.0.0.0/16", 3, 3, 3, 3, 3, 3)
   )
   availability_zone       = each.key
   cidr_block              = each.value
   vpc_id                  = aws_vpc.vpc.id
   map_public_ip_on_launch = true
+  tags = {
+    Name = "Sandbox Sonny VPC Subnet ${each.key}"
+    AZ   = each.key
+  }
 }
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
+  tags = {
+    Name = "Sandbox Sonny IGW"
+  }
 }
 
 resource "aws_security_group" "sg" {
@@ -36,6 +46,9 @@ resource "aws_security_group" "sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "Sandbox Sonny Permissive SG"
   }
 }
 

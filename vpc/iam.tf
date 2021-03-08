@@ -21,6 +21,9 @@ resource "aws_iam_role" "installer" {
   ]
 }
 EOF
+  tags = {
+    Name = "Sandbox Sonny Stacklet Installer"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "admin" {
