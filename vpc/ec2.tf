@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "bastion" {
-  count         = var.bastion
+  count         = var.bastion == 1 ? 1 : 0
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   key_name      = aws_key_pair.key.key_name
@@ -30,7 +30,7 @@ resource "aws_instance" "bastion" {
 }
 
 resource "aws_network_interface" "eni" {
-  count           = var.bastion
+  count           = var.bastion == 1 ? 1 : 0
   subnet_id       = aws_subnet.zones["us-east-1a"].id
   private_ips     = ["10.0.0.100"]
   security_groups = [aws_security_group.sg.id]
@@ -40,5 +40,5 @@ resource "aws_network_interface" "eni" {
 }
 
 output "ssh_command" {
-  value = "ssh -i key.pem ubuntu@${aws_instance.bastion[0].public_ip}"
+  value = length(aws_instance.bastion) == 1 ? "ssh -i key.pem ubuntu@${aws_instance.bastion[0].public_ip}" : ""
 }
