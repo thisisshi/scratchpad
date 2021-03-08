@@ -17,7 +17,7 @@ resource "aws_subnet" "zones" {
   vpc_id                  = aws_vpc.vpc.id
   map_public_ip_on_launch = true
   tags = {
-    Name = "Sandbox Sonny VPC Subnet ${each.key}"
+    Name = "${var.tag_prefix} VPC Subnet ${each.key}"
     AZ   = each.key
   }
 }
@@ -25,7 +25,7 @@ resource "aws_subnet" "zones" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = "Sandbox Sonny IGW"
+    Name = "${var.tag_prefix} IGW"
   }
 }
 
@@ -48,7 +48,7 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "Sandbox Sonny Permissive SG"
+    Name = "${var.tag_prefix} Permissive SG"
   }
 }
 

@@ -2,3 +2,7 @@
 # to test that the connectivity works from ec2 to the public internet or
 # various connectivity tests within the vpc
 variable "bastion" {}
+
+variable "tag_prefix" {
+  type = "string"
+}

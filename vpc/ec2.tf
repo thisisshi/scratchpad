@@ -25,7 +25,7 @@ resource "aws_instance" "bastion" {
   }
   iam_instance_profile = aws_iam_instance_profile.installer.name
   tags = {
-    Name = "Sandbox Sonny Bastion"
+    Name = "${var.tag_prefix} Bastion"
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_network_interface" "eni" {
   private_ips     = ["10.0.0.100"]
   security_groups = [aws_security_group.sg.id]
   tags = {
-    Name = "Sandbox Sonny Bastion ENI"
+    Name = "${var.tag_prefix} Bastion ENI"
   }
 }
 

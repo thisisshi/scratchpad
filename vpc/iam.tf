@@ -22,7 +22,7 @@ resource "aws_iam_role" "installer" {
 }
 EOF
   tags = {
-    Name = "Sandbox Sonny Stacklet Installer"
+    Name = "${var.tag_prefix} Stacklet Installer"
   }
 }
 

@@ -6,7 +6,7 @@ resource "aws_key_pair" "key" {
   key_name   = "test-key"
   public_key = tls_private_key.key.public_key_openssh
   tags = {
-    Name = "Sandbox Sonny Bastion Key"
+    Name = "${var.tag_prefix} Bastion Key"
   }
 }
 
