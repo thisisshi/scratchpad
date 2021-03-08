@@ -4,5 +4,5 @@
 variable "bastion" {}
 
 variable "tag_prefix" {
-  type = "string"
+  type = string
 }
