@@ -12,4 +12,5 @@ resource "aws_key_pair" "key" {
 resource "local_file" "pem_key" {
   content  = tls_private_key.key.private_key_pem
   filename = "key.pem"
+  file_permission = "0400"
 }
