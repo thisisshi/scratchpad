@@ -14,6 +14,22 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+data "template_file" "script" {
+  template = file("cloud-init.yaml")
+}
+
+data "template_cloudinit_config" "config" {
+  gzip          = true
+  base64_encode = true
+
+  # Main cloud-config configuration file.
+  part {
+    filename     = "init.cfg"
+    content_type = "text/cloud-config"
+    content      = data.template_file.script.rendered
+  }
+}
+
 resource "aws_instance" "bastion" {
   count         = var.bastion == 1 ? 1 : 0
   ami           = data.aws_ami.ubuntu.id
@@ -24,6 +40,7 @@ resource "aws_instance" "bastion" {
     device_index         = 0
   }
   iam_instance_profile = aws_iam_instance_profile.installer.name
+  user_data            = data.template_cloudinit_config.config.rendered
   tags = {
     Name = "${var.tag_prefix} Bastion"
   }

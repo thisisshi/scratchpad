@@ -1,0 +1,12 @@
+#cloud-config
+# assumes usage of ubuntu
+
+system_info:
+  default_user:
+    groups: 
+      - docker
+groups:
+  - docker
+packages:
+  - awscli
+  - docker.io
