@@ -48,7 +48,7 @@ resource "aws_instance" "bastion" {
 
 resource "aws_network_interface" "eni" {
   count           = var.bastion == 1 ? 1 : 0
-  subnet_id       = aws_subnet.zones["us-east-1a"].id
+  subnet_id       = aws_subnet.zones["${data.aws_region.current.name}a"].id
   private_ips     = ["10.0.0.100"]
   security_groups = [aws_security_group.sg.id]
   tags = {
